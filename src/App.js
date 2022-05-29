@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+// import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+
+
 
 const AsyncAwait = () => {
   const [students, setStudents] = useState([])
@@ -29,33 +34,48 @@ const AsyncAwait = () => {
     //     </ul>
     //   )}
     // </div>
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+      [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+      },
+      [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+      },
+    }));
+    
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+      // hide last border
+      '&:last-child td, &:last-child th': {
+        border: 0,
+      },
+    }));
   return (
-    <TableContainer component={Paper}>
-    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-      <TableHead>
-        <TableRow>
-          <TableCell align="left">Student ID </TableCell>
-          <TableCell align="left">First Name:&nbsp;</TableCell>
-          <TableCell align="left">Last Name:&nbsp;</TableCell>
-          <TableCell align="left">Nation&nbsp;</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {students.map((student) => (
-          <TableRow
-            key={student.studentId}
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-          >
-            {/* <TableCell component="th" scope="row">{student.name}</TableCell> */}
-            <TableCell align="left">{student.studentId}</TableCell>
-            <TableCell align="left">{student.firstName}</TableCell>
-            <TableCell align="left">{student.lastName}</TableCell>
-            <TableCell align="left">{student.nation}</TableCell>
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell align="left">Student ID</StyledTableCell>
+            <StyledTableCell align="left">First Name</StyledTableCell>
+            <StyledTableCell align="left">Last Name&nbsp;</StyledTableCell>
+            <StyledTableCell align="left">Nation&nbsp;</StyledTableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-    </TableContainer>
+        </TableHead>
+        <TableBody>
+          {students.map((student) => (
+            <StyledTableRow key={student.name}>
+              <StyledTableCell align="left">{student.studentId}</StyledTableCell>
+              <StyledTableCell align="left">{student.firstName}</StyledTableCell>
+              <StyledTableCell align="left">{student.lastName}</StyledTableCell>
+              <StyledTableCell align="left">{student.nation}</StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+      </TableContainer>
   )
 }
 

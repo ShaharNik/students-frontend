@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -15,11 +16,27 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 const AsyncAwait = () => {
   const [students, setStudents] = useState([])
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [err, setErr] = useState('');
+
   const fetchData = async () => {
-    const response = await fetch("https://localhost:7119/unSubmitted")
-    const data = await response.json()
-    //console.log(data)
-    setStudents(data)
+    setIsLoading(true);
+    try {
+      const response = await fetch("https://localhost:7119/unSubmitted")
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json()
+      //console.log(data)
+      setStudents(data)
+    }
+    catch (err){
+      setErr(err.message);
+    }
+    finally {
+      setIsLoading(false);
+    }
+
   }
 
   useEffect(() => {
@@ -53,7 +70,55 @@ const AsyncAwait = () => {
         border: 0,
       },
     }));
+
+    const DownloadCSV = async () => {
+      setIsLoading(true);
+  
+      try {
+        const response = await fetch("https://localhost:7119/ExportToCSV");
+  
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+  
+        const result = await response.json();
+  
+        console.log('result is: ', JSON.stringify(result, null, 4));
+  
+      } catch (err) {
+        setErr(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    const SubmitStudents = async () => {
+      setIsLoading(true);
+  
+      try {
+        const requestOptions = {
+          method: 'PUT'
+      };
+        const response = await fetch("https://localhost:7119/SubmitStudents", requestOptions); // should specify method put?
+  
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+  
+        const result = await response.json();
+  
+        console.log('result is: ', JSON.stringify(result, null, 4));
+  
+      } catch (err) {
+        setErr(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
   return (
+    <div>
+
+    
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -76,6 +141,12 @@ const AsyncAwait = () => {
         </TableBody>
       </Table>
       </TableContainer>
+      {isLoading && <h2>Loading...</h2>}
+      {err && <h2>{err}</h2>}
+      <Button variant="outlined" onClick={DownloadCSV}>Download unSubmitted CSV</Button>
+      <Button variant="contained" onClick={SubmitStudents}>Submit Students</Button>
+
+      </div>
   )
 }
 

@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react"
 
-function App() {
+const AsyncAwait = () => {
+  const [students, setStudents] = useState([])
+
+  const fetchData = async () => {
+    const response = await fetch("https://localhost:7119/unSubmitted")
+    const data = await response.json()
+    //console.log(data)
+    setStudents(data)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {students.length > 0 && (
+        <ul>
+          {students.map(student => (
+            <li key={student.studentId}>student id:{student.studentId} first name:{student.firstName} last name:{student.lastName} nation:{student.nation}</li>
+          ))}
+        </ul>
+      )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default AsyncAwait

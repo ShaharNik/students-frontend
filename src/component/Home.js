@@ -78,8 +78,8 @@ function Home (){
         }
   
         const result = await response.json();
-  
         console.log('result is: ', JSON.stringify(result, null, 4));
+        // https://exerror.com/failed-to-load-resource-neterr-http2-protocol-error-for-react-app-after-upg/
   
       } catch (err) {
         setErr(err.message);

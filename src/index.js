@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <h2>unSubmitted Students</h2>
+    <h2>Students Registration and Submition</h2>
     <App />
   </React.StrictMode>
 );

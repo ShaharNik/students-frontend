@@ -99,10 +99,9 @@ function Home (){
         if (!response.ok) {
           throw new Error(`Error! status: ${response.status}`);
         }
-  
-        const result = await response.json();
-  
-        console.log('result is: ', JSON.stringify(result, null, 4));
+        setErr("Users Submitted");
+        // const result = await response.json();
+        // console.log('result is: ', JSON.stringify(result, null, 4));
   
       } catch (err) {
         setErr(err.message);

@@ -30,7 +30,7 @@ function Register () {
             setNation("");
             setMessage("User created successfully");
           } else {
-            setMessage("Some error occured");
+            setMessage("User isn't submitted, The ID is already exist");
           }
         } catch (err) {
           console.log(err);
@@ -43,6 +43,10 @@ function Register () {
         <div className="Register">
       <form onSubmit={handleSubmit}>
         <input
+          required
+          minLength="9"
+          maxLength="9"
+          pattern="[0-9]{9}"
           type="text"
           value={id}
           placeholder="id"
@@ -50,19 +54,28 @@ function Register () {
         />
         <input
           type="text"
+          required
+          minLength="2"
+          pattern="[A-Za-z].{2,}"
           value={lastName}
           placeholder="lastName"
           onChange={(e) => setLastName(e.target.value)}
         />
         <input
           type="text"
+          required
+          minLength="2"
           value={firstName}
+          pattern="[A-Za-z].{2,}"
           placeholder="firstName"
           onChange={(e) => setFirstName(e.target.value)}
         />
         <input
           type="text"
+          required
+          minLength="3"
           value={nation}
+          pattern="[A-Za-z].{3,}"
           placeholder="nation"
           onChange={(e) => setNation(e.target.value)}
         />

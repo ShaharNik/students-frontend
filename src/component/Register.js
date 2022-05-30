@@ -14,15 +14,16 @@ function Register () {
         try {
           let res = await fetch("https://localhost:7119/api/Student", {
             method: "POST",
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              "studentId": id,
-              "lastName": lastName,
-              "firstName": firstName,
-              "nation": nation
+              studentId: id,
+              lastName: lastName,
+              firstName: firstName,
+              nation: nation,
             }),
           });
-          let resJson = await res.json();
-          if (res.status === 200) {
+          //let resJson = await res.json();
+          if (res.status === 201) {
             setId("");
             setLastName("");
             setFirstName("");

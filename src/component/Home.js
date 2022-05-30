@@ -124,7 +124,7 @@ function Home (){
           </TableHead>
           <TableBody>
             {students.map((student) => (
-              <StyledTableRow key={student.name}>
+              <StyledTableRow key={student.studentId}>
                 <StyledTableCell align="left">{student.studentId}</StyledTableCell>
                 <StyledTableCell align="left">{student.firstName}</StyledTableCell>
                 <StyledTableCell align="left">{student.lastName}</StyledTableCell>
